@@ -26,10 +26,7 @@ $("#submit").on("click", function(){
   firstTime = $("#first-time").val().trim();
   frequency = $("#frequency").val().trim();
 
-
-  console.log(trainName);
-
-
+  //push values to the database
   database.ref().push({
     trainName: trainName,
     destination: destination,
@@ -42,41 +39,37 @@ $("#submit").on("click", function(){
 
   //Firebase watcher
   database.ref().on("child_added", function(snapshot){
-
     var sv = snapshot.val();
+    // console.log(sv);
 
-    console.log(sv);
-    console.log(sv.trainName);
-    console.log(sv.destination);
-    console.log(sv.firstTime);
-    console.log(sv.frequency);
-
-    var minutesTillTrain = getNextArrival(sv.firstTime, sv.frequency);
-    console.log("min til train: " + minutesTillTrain);
+    //minutes away
+    var minutesAway = getNextArrival(sv.firstTime, sv.frequency);
     
-    // Next Train
-    var nextArrival = moment(moment().add(minutesTillTrain, "minutes")).format("HH:mm");
-    console.log("ARRIVAL TIME: " + nextArrival);
+    //next arrival
+    var nextArrival = moment(moment().add(minutesAway, "minutes")).format("HH:mm");
 
+    //push the data to the table
     $("tbody")
-    .append("<tr><td>"+sv.trainName+"</td><td>"+sv.destination+"</td><td>"+sv.frequency+"</td><td>"+nextArrival+"</td><td>"+minutesTillTrain+"</td></tr>");
+    .append("<tr><td>"+sv.trainName+"</td><td>"+sv.destination+"</td><td class='text-center'>"+sv.frequency+"</td><td class='text-center'>"+nextArrival+"</td><td class='text-center'>"+minutesAway+"</td></tr>");
 
   }, function(errorObject){
     console.log("Errors handled: " + errorObject.code);
   });
 
+  //function to get next arrival
   function getNextArrival(firstTime, frequency){
     // First Time (pushed back 1 year to make sure it comes before current time)
     var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
-    console.log("first time converted: " + moment(firstTimeConverted).format("HH:mm"));
     // Difference between the times
     var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-    console.log("DIFFERENCE IN TIME: " + diffTime);
     // Time apart (remainder)
     var tRemainder = diffTime % frequency;
-    console.log("time remainder" + tRemainder);
     // Minute Until Train
-    var minutesTillTrain = frequency - tRemainder;
-    console.log("MINUTES TILL TRAIN: " + minutesTillTrain);
-    return minutesTillTrain;
+    var minutesAway = frequency - tRemainder;
+    return minutesAway;
   }
+
+//form validator
+$.validate({
+  modules : 'date'
+});

@@ -10,48 +10,19 @@
   	<script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
   	<!--momentjs-->
   	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+  	<!-- jquery form validator -->
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
   	<!--bootstrap-->
  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	<!--google fonts -->
+ 	<link href="https://fonts.googleapis.com/css?family=Monoton|Raleway" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 <body>
 	<div class="container">
-		<div class="jumbotron jumbotron-fluid">
+		<div class="page-header">
 		<h1 class="text-center">Train Scheduler</h1>
-		<p class="text-center">Get there on time!</p>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="panel panel-default">
-				<div class="panel-heading">
-					<div class="panel-title">
-					Add Train
-					</div>
-				</div>				
-				  <div class="panel-body">
-					<form>
-						<div class="form-group">
-						<label for="train-name">Train Name</label>
-						<input type="text" class="form-control" id="train-name">
-						</div>
-						<div class="form-group">
-						<label for="destination">Destination</label>
-						<input type="text" class="form-control" id="destination">
-						</div>
-						<div class="form-group">
-						<label for="first-time">First Train Time (hh:mm - military time)</label>
-						<input type="text" class="form-control" id="first-time">
-						</div>
-						<div class="form-group">
-						<label for="frequency">Frequency (min)</label>
-						<input type="text" class="form-control" id="frequency">
-						</div>													
-						<button id="submit" type="submit" class="btn btn-default">Submit</button>
-						<button id="reset" type="reset" class="btn btn-default">Clear</button>
-					</form>
-				  </div>				  
-				</div>
-			</div>			
+		<p id="subhead" class="text-center">Be On Time!</p>
 		</div>
 		<div class="row">
 			<div class="col-sm-12">
@@ -62,20 +33,53 @@
 					</div>
 				</div>				
 				  <div class="panel-body">
-					<table class="table">
+					<table class="table table-borderless table-condensed table-hover">
 					  <thead>
 					    <tr>
 					      <th>Train Name</th>
 					      <th>Destination</th>
-					      <th>Frequency (min)</th>
-					      <th>Next Arrival</th>
-					      <th>Minutes Away</th>
+					      <th class="text-center">Frequency (min)</th>
+					      <th class="text-center">Next Arrival</th>
+					      <th class="text-center">Minutes Away</th>
 					    </tr>
 					  </thead>
 					  <tbody>
 
 					  </tbody>
 					</table>
+				  </div>				  
+				</div>
+			</div>			
+		</div>		
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-title">
+					Add Train
+					</div>
+				</div>				
+				  <div class="panel-body">
+					<form action="" id="registration-form">
+						<div class="form-group">
+						<label for="train-name">Train Name</label>
+						<input type="text" class="form-control" id="train-name">
+						</div>
+						<div class="form-group">
+						<label for="destination">Destination</label>
+						<input type="text" class="form-control" id="destination">
+						</div>
+						<div class="form-group">
+						<label for="first-time">First Train Time (hh:mm - military time)</label>
+						<input type="text" class="form-control" id="first-time" data-validation="time" data-validation-help="HH:mm">
+						</div>
+						<div class="form-group">
+						<label for="frequency">Frequency (min)</label>
+						<input type="text" class="form-control" id="frequency" data-validation="number" data-validation-allowing="range[1;180]" data-validation-error-msg="Ener a number between 1-180">
+						</div>													
+						<button id="submit" type="submit" class="btn btn-default">Submit</button>
+						<button id="reset" type="reset" class="btn btn-default">Clear</button>
+					</form>
 				  </div>				  
 				</div>
 			</div>			
